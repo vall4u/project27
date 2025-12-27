@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Universe - Cinta</title>
+    <style>
+        body {
+            background: #050505 url('bg-capricorn.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: white;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: -1;
+        }
+
+        #pin-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            transition: 1.5s;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+            max-width: 400px;
+            display: none; /* Muncul setelah PIN */
+        }
+
+        h1 { color: #f0f0f0; text-shadow: 0 0 10px #fff; }
+        
+        .age-box {
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid #fff;
+            border-radius: 10px;
+        }
+
+        .timer { font-weight: bold; font-size: 1.4rem; color: #ffeb3b; }
+
+        input {
+            padding: 10px;
+            background: transparent;
+            border: 1px solid white;
+            color: white;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: twinkle 2s infinite ease-in-out;
+        }
+        @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+<div id="pin-screen">
+    <h2>[ ENTER ACCESS CODE ]</h2>
+    <input type="password" id="pinInput" placeholder="4 Digits">
+    <button onclick="checkPin()">AUTHORIZE</button>
+</div>
+
+<div class="container" id="main-content">
+    <h1>Happy Birthday, Cinta!</h1>
+    <div class="age-box">
+        System Chronometer:<br>
+        <span id="age-timer" class="timer">...</span>
+    </div>
+    <div style="font-size: 0.9rem; line-height: 1.6;">
+        <p>"Happy birthday to the person who fills my universe with love."</p>
+        <p>"Thank you for being a great partner, the best sister, and a daughter to be proud of."</p>
+        <p>"I'm sorry for any shadows I've caused, I`ll try my best for our mission."</p>
+        <p>I hope we can explore more galaxies of joy together for centuries. I love you to the moon and back."</p>
+    </div>
+</div>
+
+<audio id="mySong" loop>
+    <source src="bgm.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    const CORRECT_PIN = "0927";
+
+    function checkPin() {
+        if(document.getElementById('pinInput').value === CORRECT_PIN) {
+            document.getElementById('pin-screen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('pin-screen').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                document.getElementById('mySong').play();
+                setInterval(updateAge, 1000);
+            }, 1000);
+        }
+    }
+
+    function updateAge() {
+        const birthDate = new Date('2002-12-27T00:00:00');
+        const now = new Date();
+        const diff = now - birthDate;
+        const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+        const days = Math.floor((diff % (1000 * 60 * 60 * 24 * 365.25)) / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+        document.getElementById('age-timer').innerHTML = `${years}Y ${days}D ${hours}h ${minutes}m ${seconds}s`;
+    }
+</script>
+</body>
+</html>
